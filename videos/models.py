@@ -7,13 +7,17 @@ class VideoQuerySet(models.QuerySet):
     def published(self):
         now = timezone.now()
         return self.filter(
-            state = Video.VideoStateOptions.PUBLISH,
-            published_timestamp__lte = now
-        )
+            state=Video.VideoStateOptions.PUBLISH,
+            published_timestamp__lte=now
+            )
 
-class VideoManger(models.manager):
+class VideoManger(models.Manager):
     def get_quesryset(self):
-        return VideoQuerySet(self.model,using=self._db)
+        return VideoQuerySet(self.model , using=self._db)
+
+
+    def published(self):
+        return self.get_quesryset().published()
 
 
 
@@ -38,6 +42,10 @@ class Video(models.Model):
     )
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    objects= VideoManger()
+
+
+
 
     @property
     def is_published(self):
