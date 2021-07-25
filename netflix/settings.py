@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # custom installs
     'videos.apps.VideosConfig',
+    'playlists.apps.PlaylistsConfig'
     
 ]
 
